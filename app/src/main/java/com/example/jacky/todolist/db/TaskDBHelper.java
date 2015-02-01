@@ -3,29 +3,32 @@ package com.example.jacky.todolist.db;
 import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
+import android.util.Log;
 
 /**
  * Created by jacky on 2015/2/1.
  */
-public class TaskDBHelper extends SQLiteOpenHelper{
+public class TaskDBHelper extends SQLiteOpenHelper {
 
-    public TaskDBHelper(Context context){
+    public TaskDBHelper(Context context) {
         super(context, TaskContract.DB_NAME, null, TaskContract.DB_VERSION);
     }
 
     @Override
-    public void onCreate(SQLiteDatabase db){
+    public void onCreate(SQLiteDatabase sqlDB) {
         String sqlQuery =
-                String.format("CREATE TABLE %s ("+
-                "id_ INTEGER PRIMARY KEY AUTOINCREMENT, "+
-                "%s TEXT)", TaskContract.TABLE, TaskContract.column.TASK);
+                String.format("CREATE TABLE %s (" +
+                                "_id INTEGER PRIMARY KEY AUTOINCREMENT, " +
+                                "%s TEXT)", TaskContract.TABLE,
+                        TaskContract.Columns.TASK);
 
-        db.execSQL(sqlQuery);
+        Log.d("TaskDBHelper","Query to form table: "+sqlQuery);
+        sqlDB.execSQL(sqlQuery);
     }
 
     @Override
-    public void onUpgrade(SQLiteDatabase db, int i, int i2){
-        db.execSQL("DROP TABLE IF EXIST "+TaskContract.TABLE);
-        onCreate(db);
+    public void onUpgrade(SQLiteDatabase sqlDB, int i, int i2) {
+        sqlDB.execSQL("DROP TABLE IF EXISTS "+TaskContract.TABLE);
+        onCreate(sqlDB);
     }
 }
